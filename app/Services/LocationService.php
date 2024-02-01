@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Contracts\Repositories\LocationRepositoryInterface;
 use App\Contracts\Services\LocationServiceInterface;
-use App\Repositories\LocationRepository;
 
 class LocationService implements LocationServiceInterface
 {
     private const EARTH_RADIUS = 6371000;
 
     public function __construct(
-        public LocationRepository $locationRepository
+        public LocationRepositoryInterface $locationRepository
     ) {}
 
     public function getLocationsByRadiusAndPoint(string $place, int $range): array

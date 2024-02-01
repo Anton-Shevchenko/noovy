@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Contracts\Repositories\LocationRepositoryInterface;
 use Illuminate\Support\Facades\Storage;
 use App\Services\UploadService;
 
-class LocationRepository
+class LocationRepository implements LocationRepositoryInterface
 {
     const DEFAULT_PATH = "public/". UploadService::DEFAULT_FOLDER ."/";
     private const FILE_PATH = self::DEFAULT_PATH . UploadService::DEFAULT_FILE_NAME;

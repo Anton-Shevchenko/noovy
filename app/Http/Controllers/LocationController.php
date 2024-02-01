@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\LocationRepositoryInterface;
 use App\Contracts\Services\LocationServiceInterface;
-use App\Repositories\LocationRepository;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
     public function __construct(
         public LocationServiceInterface $locationService,
-        public LocationRepository $locationRepository,
+        public LocationRepositoryInterface $locationRepository,
     ) {}
 
     public function index()
