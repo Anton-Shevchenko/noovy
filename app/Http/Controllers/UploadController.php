@@ -21,7 +21,7 @@ class UploadController extends Controller
     public function upload(Request $request)
     {
         $this->validate($request, [
-            'csvFile' => 'required|mimes:csv,txt|max:10240', // Max file size: 10 MB
+            'csvFile' => 'required|mimes:csv|max:10240', // Max file size: 10 MB
         ]);
 
         $file = $request->file('csvFile');

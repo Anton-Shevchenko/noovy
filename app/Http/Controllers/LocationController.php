@@ -20,9 +20,13 @@ class LocationController extends Controller
         return view("locations", ["locations" => array_keys($this->locationRepository->getAllLocations())]);
     }
 
-    public function getlocationsInradius(Request $request)
+    public function getlocationsInRadius(Request $request)
     {
-        //TODO validation
+        $this->validate($request, [
+            'place' => 'required|string|max:255',
+            'range' => 'required|integer|max:1000000'
+        ]);
+
         return [
             "locations" => $this->locationService->getLocationsByRadiusAndPoint(
                 $request->get("place"),
