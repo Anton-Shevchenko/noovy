@@ -14,7 +14,7 @@
 */
 
 $router->get('/', 'LocationController@index');
-$router->post('/locations/', 'LocationController@getlocationsInradius');
+$router->post('/locations/', 'LocationController@getlocationsInRadius');
 
 $router->get('/upload/', 'UploadController@index');
 $router->post('/upload/csv/', 'UploadController@upload');

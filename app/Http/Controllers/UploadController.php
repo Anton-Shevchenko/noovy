@@ -13,7 +13,7 @@ class UploadController extends Controller
         public UploadServiceInterface $uploadService
     ) {}
 
-    public function index(Request $request)
+    public function index()
     {
         return view("upload");
     }
