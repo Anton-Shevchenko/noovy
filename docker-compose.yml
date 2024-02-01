@@ -2,6 +2,7 @@ version: "3.5"
 
 services:
   lumen:
+    container_name: lumen
     ports:
       - "8000:8000"
     volumes:
@@ -13,12 +14,15 @@ services:
     depends_on:
       - db
   db:
+    container_name: db
     image: mysql:8.0
     restart: always
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
     command: mysqld --default-authentication-plugin=mysql_native_password
     volumes:
       - ./database/mysql-data:/var/lib/mysql:rw

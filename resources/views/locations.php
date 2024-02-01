@@ -19,36 +19,25 @@
     </select>
 
     <br><br>
-
-    <!-- Slider -->
     <label for="sliderValue">Slider Value: <span id="sliderLabel">50</span></label>
     <input type="range" id="sliderValue" min="0" max="100000" value="50">
-
     <br><br>
-
-    <!-- Button to Trigger AJAX -->
     <button id="sendDataButton">Send Data</button>
-
     <div id="locations"></div>
-
     <script>
         $(document).ready(function () {
-            // Button click event
             $("#sendDataButton").click(function () {
-                // Get values from select and slider
-                var selectedOption = $("#selectOption").val();
-                var sliderValue = $("#sliderValue").val();
+                let selectedOption = $("#selectOption").val();
+                let sliderValue = $("#sliderValue").val();
 
-                // Prepare data to send
-                var sendData = {
+                let sendData = {
                     place: selectedOption,
                     range: sliderValue
                 };
 
-                // AJAX request
                 $.ajax({
                     type: "POST",
-                    url: "/locations/", // Replace with your server-side script URL
+                    url: "/locations/",
                     data: sendData,
                     success: function (response) {
                         displayLocations(response.locations);
@@ -59,7 +48,6 @@
                 });
             });
 
-            // Slider change event to update label
             $("#sliderValue").on("input", function () {
                 $("#sliderLabel").text($(this).val());
             });
@@ -70,10 +58,9 @@
                 container.innerHTML = "";
                 let ul = document.createElement('ul');
 
-                for (let i = 0; i < dataArray.length; i++) {
-                    let dataItem = dataArray[i];
+                for (const location in dataArray) {
                     let li = document.createElement('li');
-                    li.textContent = 'Place: ' + dataItem
+                    li.textContent = `Place: ${location}; Distanation: ${dataArray[location]}km.`
 
                     ul.appendChild(li);
                 }

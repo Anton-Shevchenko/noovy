@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Contracts\Repositories\LocationRepositoryInterface;
 use App\Contracts\Services\UploadServiceInterface;
 use Illuminate\Http\UploadedFile;
 

@@ -32,7 +32,7 @@ class LocationService implements LocationServiceInterface
             $distance = $this->haversineDistance($targetLat, $targetLon, $location['lat'], $location['lon']);
 
             if ($distance <= $radius) {
-                $result[] = $place;
+                $result[$place] = $this->roundDistance($distance);
             }
         }
 
@@ -55,4 +55,8 @@ class LocationService implements LocationServiceInterface
         return $angle * self::EARTH_RADIUS;
     }
 
+    private function roundDistance(float $distance): float
+    {
+        return round($distance / 1000, 3);
+    }
 }
