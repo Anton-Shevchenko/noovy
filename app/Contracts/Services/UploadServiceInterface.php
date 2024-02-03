@@ -6,5 +6,5 @@ use Illuminate\Http\UploadedFile;
 
 interface UploadServiceInterface
 {
-    public function uploadCSV(UploadedFile $file): bool;
+    public function uploadCSVToDB(UploadedFile $file): bool;
 }

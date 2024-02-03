@@ -17,14 +17,14 @@ class LocationController extends Controller
 
     public function index()
     {
-        return view("locations", ["locations" => array_keys($this->locationRepository->getAllLocations())]);
+        return view("locations", ["locations" => $this->locationRepository->getAllLocations()]);
     }
 
     public function getlocationsInRadius(Request $request)
     {
         $this->validate($request, [
             'place' => 'required|string|max:255',
-            'range' => 'required|integer|max:1000000'
+            'range' => 'required|integer|max:1000'
         ]);
 
         return [

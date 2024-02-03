@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->double('latitude', 10, 6);
             $table->double('longitude', 10, 6);
-            $table->string('name');
+            $table->string('name')->unique();
         });
     }
 

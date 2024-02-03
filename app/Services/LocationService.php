@@ -10,29 +10,41 @@ use App\Contracts\Services\LocationServiceInterface;
 class LocationService implements LocationServiceInterface
 {
     private const EARTH_RADIUS = 6371000;
+    private const METERS_IN_KM = 1000;
 
     public function __construct(
         public LocationRepositoryInterface $locationRepository
     ) {}
 
-    public function getLocationsByRadiusAndPoint(string $place, int $range): array
+    public function getLocationsByRadiusAndPoint(string $placeName, int $range): array
     {
         $allLocations = $this->locationRepository->getAllLocations();
-        $point = $allLocations[$place];
+        $point = $this->locationRepository->getLocationByName($placeName);
 
-        return $this->findLocationsInRadius($point['lat'], $point['lon'], $range, $allLocations);
+        return $this->findLocationsInRadius(
+            $point->getLatitude(),
+            $point->getLongitude(),
+            $range * self::METERS_IN_KM,
+            $allLocations
+        );
     }
 
     private function findLocationsInRadius($targetLat, $targetLon, $radius, $locations): array
     {
         $result = [];
 
-        foreach ($locations as $place => $location) {
-            //TODO result can be in cache
-            $distance = $this->haversineDistance($targetLat, $targetLon, $location['lat'], $location['lon']);
+        foreach ($locations as $location) {
+            //result can be in cache
+            $distance = $this->haversineDistance(
+                $targetLat,
+                $targetLon,
+                $location->getLatitude(),
+                $location->getLongitude()
+            );
 
-            if ($distance <= $radius) {
-                $result[$place] = $this->roundDistance($distance);
+            if ($distance < $radius) {
+                $location->distance = $this->roundDistance($distance);
+                $result[] = $location;
             }
         }
 
@@ -57,6 +69,6 @@ class LocationService implements LocationServiceInterface
 
     private function roundDistance(float $distance): float
     {
-        return round($distance / 1000, 3);
+        return round($distance / self::METERS_IN_KM, 3);
     }
 }

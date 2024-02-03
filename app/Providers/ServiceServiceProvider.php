@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Contracts\Services\GoogleMapServiceInterface;
 use App\Contracts\Services\LocationServiceInterface;
 use App\Contracts\Services\UploadServiceInterface;
+use App\Services\GoogleMapService;
 use App\Services\LocationService;
-use App\Services\UploadService;
+use App\Services\UploadLocationService;
 use Illuminate\Support\ServiceProvider;
 
 class ServiceServiceProvider extends ServiceProvider
@@ -29,7 +31,12 @@ class ServiceServiceProvider extends ServiceProvider
         );
         $this->app->bind(
             UploadServiceInterface::class,
-            UploadService::class
+            UploadLocationService::class
+        );
+
+        $this->app->bind(
+            GoogleMapServiceInterface::class,
+            GoogleMapService::class
         );
     }
 }

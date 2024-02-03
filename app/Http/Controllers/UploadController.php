@@ -13,19 +13,14 @@ class UploadController extends Controller
         public UploadServiceInterface $uploadService
     ) {}
 
-    public function index()
-    {
-        return view("upload");
-    }
-
     public function upload(Request $request)
     {
         $this->validate($request, [
-            'csvFile' => 'required|mimes:csv|max:10240', // Max file size: 10 MB
+            'csvFile' => 'required|mimes:csv|max:10240',
         ]);
 
         $file = $request->file('csvFile');
 
-        return $this->uploadService->uploadCSV($file);
+        return $this->uploadService->uploadCSVToDB($file);
     }
 }
