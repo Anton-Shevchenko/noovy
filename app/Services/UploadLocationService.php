@@ -11,6 +11,7 @@ use App\Jobs\FetchPhotos;
 use App\Models\Location;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 
 class UploadLocationService implements UploadServiceInterface
 {
@@ -26,7 +27,7 @@ class UploadLocationService implements UploadServiceInterface
         $path = $file->path();
 
         if (!file_exists($path)) {
-            //log error
+            Log::error('Upload CSV failed: ' . $e->getMessage());
             return false;
         }
 
@@ -49,7 +50,7 @@ class UploadLocationService implements UploadServiceInterface
                 while (($row = fgetcsv($handle, self::DEFAULT_LENGTH, ',')) !== false) {
                     $coordinates = explode(",", $row[1]);
                     if (count($coordinates) != 2) {
-                        // log invalid
+                        Log::error('Invalid CSV format');
                         continue;
                     }
 
@@ -67,7 +68,7 @@ class UploadLocationService implements UploadServiceInterface
 
             return $collection;
         } catch (\Exception $exception) {
-            //log error
+            Log::error('Invalid CSV file: ' . $exception->getMessage());
         }
     }
 }

@@ -4,23 +4,22 @@ namespace App\Jobs;
 
 use App\Models\Location;
 use App\Services\GoogleMapService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-
+use Illuminate\Support\Facades\Log;
 
 class FetchPhotos extends Job
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
-
     public function __construct(
         public string $locationName,
     ) {}
 
     public function handle()
     {
-        $location = Location::where('name', $this->locationName)->get()[0];
-        $location->setThumb(GoogleMapService::getPhotoPlaceByTextQuery($location->getName()));
-        $location->save();
+        try {
+            $location = Location::where('name', $this->locationName)->get()[0];
+            $location->setThumb(GoogleMapService::getPhotoPlaceByTextQuery($location->getName()));
+            $location->save();
+        } catch (\Exception $e) {
+            Log::error('Job failed: ' . $e->getMessage());
+        }
     }
 }
